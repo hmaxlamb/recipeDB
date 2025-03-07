@@ -3,10 +3,15 @@
 class Recipe:
    
    #init fuction to make recipe class
-    def __init__(name, category, *args):
+    def __init__(name, category):
         self.name = name
         self.category = category
         self.ingredients = []
-        for arg in args:
-            self.ingredients.append(arg)
+        self.intructions = []
+        return
 
+    def __add_ingredient(ingredient):
+        self.ingredients.append(ingredient)
+
+    def __add_intruction(instuction):
+        self.ingredients = []
