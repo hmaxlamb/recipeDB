@@ -1,4 +1,5 @@
-
+import sqlite3
+import dbfuncs
 
 class Recipe:
    
@@ -8,10 +9,12 @@ class Recipe:
         self.category = category
         self.ingredients = []
         self.intructions = []
-        return
 
     def __add_ingredient(ingredient):
         self.ingredients.append(ingredient)
 
     def __add_intruction(instuction):
-        self.ingredients = []
+        self.ingredients.append = []
+
+    def _add to db():
+        
