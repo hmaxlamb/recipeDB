@@ -4,15 +4,28 @@ def initialize_database():
     #Creats database / Connnection
     conn = sqlite3.connect("recipe_database.db")
     cur = conn.cursor()
+    cur.execute("PRAGMA foreign_keys = ON;")
 
     cur.execute(
-        """CREAT TABLE IF NOT EXIST Recipe (
-        ID INTEGER PRIMARY KEY ASC, 
-        Name VARCHAR(60) UNIQUE,
-        Catagory VARCHAR(20),
+        """CREATE TABLE IF NOT EXIST Recipes (
+        ID INTEGER, 
+        Name TEXT UNIQUE NOT NULL,
+        Catagory TEXT,
+        PRIMARY KEY(ID, ASC)
         );
         """
         )
+
+    cur.execute(
+        """CREATE TABLE IF NOT EXISIT Instructions (
+        ID INTEGER,
+        RecipeID INTEGER,
+        Name TEXT NOT NULL,
+        StepNumber INTEGER
+        PRIMARY KEY(!D, ASC)
+        )
+        """
+    )
 
 
     conn.close()
