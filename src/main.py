@@ -1,4 +1,5 @@
 import sqlite3
+from recipe import *
 from dbfuncs import initialize_database
 def main():
     initialize_database()
