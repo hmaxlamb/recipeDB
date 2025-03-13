@@ -1,11 +1,12 @@
 import sqlite3
 
 def initialize_database():
-    #Creats database / Connnection
+    #Creates database / Connnection
     conn = sqlite3.connect("recipe_database.db")
     cur = conn.cursor()
     cur.execute("PRAGMA foreign_keys = ON;")
 
+    #Creates Ingredient Table
     cur.execute(
         """CREATE TABLE IF NOT EXIST Ingredient (
         ID INTEGER,
@@ -15,8 +16,9 @@ def initialize_database():
         """
     )
 
+    #Creates Recipe Table
     cur.execute(
-        """CREATE TABLE IF NOT EXIST Recipes (
+        """CREATE TABLE IF NOT EXIST Recipe (
         ID INTEGER, 
         Name TEXT UNIQUE NOT NULL,
         Catagory TEXT,
@@ -25,6 +27,7 @@ def initialize_database():
         """
         )
 
+    #Creates Instruction Table
     cur.execute(
         """CREATE TABLE IF NOT EXIST Instruction (
         ID INTEGER,
@@ -37,6 +40,7 @@ def initialize_database():
         """
     )
 
+    #Creates a table that links recipes to ingredients
     cur.execute(
         """CREATE TABLE IF NOT EXIST Recipe_Ingredient_Link (
         RecipeID INTEGER,
@@ -47,5 +51,5 @@ def initialize_database():
          """
     )
 
-
+    #Closes DB connection
     conn.close()
