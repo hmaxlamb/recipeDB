@@ -10,21 +10,21 @@ class Recipe:
         self.ingredients = []
         self.intructions = []
 
-    def __add_ingredient(ingredient):
-        self.ingredients.append(ingredient)
+    def __add_ingredient(self, ingredient):
+        self.ingredients.append(self, ingredient)
 
-    def __append_instruction(instuction):
+    def __append_instruction(self, instuction):
         instuction.step_number = len(self.intructions) + 1
-        self.ingredients.append(intructions)
+        self.ingredients.append(instuction)
 
     #This fuction will insert the instrunction and -
     #move the current instuction at the index  to the left
-    def __insert_instruction(instuction, step_num):
+    def __insert_instruction(self, instruction, step_num):
         index = step_num - 1
         self.instrunctions[index].step_number += 
-        instrunction.step_number = step_num
+        instruction.step_number = step_num
 
-        self.instrunctions.insert(index, instrunction)
+        self.instrunctions.insert(index, instruction)
 
         
 
