@@ -13,23 +13,25 @@ class Recipe:
         self.name = name.upper()
         self.category = category.upper()
         self.ingredients = []
-        self.intructions = []
+        self.instructions = []
 
     def add_ingredient(self, ingredient):
         self.ingredients.append(self, ingredient)
 
-    def append_instruction(self, instuction):
-        instuction.step_number = len(self.intructions) + 1
-        self.ingredients.append(instuction)
+    def append_instruction(self, instruction):
+        instruction.step_number = len(self.instructions) + 1
+        self.instructions.append(instruction)
 
     #This fuction will insert the instrunction and -
     #move the current instuction at the index  to the left
     def insert_instruction(self, instruction, step_num):
+        if step_num > len(self.instructions):
+            raise IndexError("Step number can't be greater than total size")
         index = step_num - 1
-        self.intructions[index].step_number += 1
+        self.instructions[index].step_number += 1
         instruction.step_number = step_num
 
-        self.intructions.insert(index, instruction)
+        self.instructions.insert(index, instruction)
 
         
 
@@ -53,10 +55,8 @@ class Ingredient:
 
 
 class Instruction:
-    def __init__(self, desc, step_number):
+    def __init__(self, desc):
         if not isinstance(desc, str):
             raise TypeError("The description must be a string!")
-        if not isinstance(step_number, int):
-            raise TypeError("Step Number must be an int!")
         self.desc = desc
-        self.step_number = step_number
+        self.step_number = None

@@ -26,5 +26,31 @@ class TestRescipeCreation(unittest.TestCase):
         with self.assertRaises(TypeError):
             ing = Ingredient("salt", 4, 5)
 
+    def test_instruction(self):
+        instruc = Instruction("Take 5 and relax")
+        self.assertEqual(instruc.desc, "Take 5 and relax")
+
+    def test_bad_instruction(self):
+        with self.assertRaises(TypeError):
+            instuc = Instruction(4)
+
+    def test_insertion(self):
+        r =Recipe("Pizza", "Intalian")
+        ins1 = Instruction("Mix flour and water")
+        r.append_instruction(ins1)
+        self.assertEqual(len(r.instructions), 1)
+        self.assertEqual(r.instructions[0].step_number, 1)
+
+    def test_instuction_insertion(self):
+        r =Recipe("Pizza", "Intalian")
+        ins1 = Instruction("Mix flour and water")
+        ins2 = Instruction("Add yeast while mixing")
+        ins3 = Instruction("Mix until fully incorperated")
+        r.append_instruction(ins1)
+        r.append_instruction(ins3)
+        r.insert_instruction(ins2, 2)
+
+        self.assertEqual(r.instructions[1].step_number, 2)
+
 if __name__ == '__main__':
     unittest.main()
