@@ -77,7 +77,7 @@ def prompt_recipe():
         else:
            raise ValueError("Must be yes or no")
         
-        while(catagory_name_not_made:)
+        while(catagory_name_not_made):
             c_name = input("Please Input Catagory")
             confirm = input(f"Please confirm catagory: {c_name} (Yes/No)")
             confirm.upper()
