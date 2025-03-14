@@ -5,6 +5,11 @@ class Recipe:
    
    #init fuction to make recipe class
     def __init__(self, name, category):
+        if not isinstance(name, str):
+            raise TypeError("name should be a string!")
+        if not isinstance(category, str):
+            raise TypeError("catagory should be a string!")
+
         self.name = name.upper()
         self.category = category.upper()
         self.ingredients = []
@@ -20,42 +25,38 @@ class Recipe:
     #This fuction will insert the instrunction and -
     #move the current instuction at the index  to the left
     def insert_instruction(self, instruction, step_num):
-        if type(step_num) is not int:
-            raise ValueError("The step number must be a string!")
         index = step_num - 1
-        self.instrunctions[index].step_number += 1
+        self.intructions[index].step_number += 1
         instruction.step_number = step_num
 
-        self.instrunctions.insert(index, instruction)
+        self.intructions.insert(index, instruction)
 
         
 
 class Ingredient:
     def __init__(self, name, ammount, unit=None):
-        if type(name) is str:
-            self.name = name.upper()
-        else:
-            raise ValueError("name must be string!")
-        if type(ammount) is int:
+        if not isinstance(name, str):
+            raise TypeError("name must be string!")
+        if isinstance(ammount, int):
             self.ammount = float(ammount)
-        elif type(ammount) is float:
+        elif isinstance(ammount, float):
             self.ammount = ammount
         else:
-            raise ValueError("ammount must be int or float!")
-        
+            raise TypeError("ammount must be int or float!")
         if unit:
-            if type(unit) is str:
-                self.unit = unit.upper()
-            else:
-                raise ValueError("unit must be string!")
+            if not isinstance(unit, str):
+                raise TypeError("unit must be string!")
+            self.unit = unit
+        self.name = name
+        
         
 
 
 class Instruction:
     def __init__(self, desc, step_number):
-        if type(desc) is str:
-            self.desc = desc
-        else:
-            raise ValueError("The desciption must be a string!")
+        if not isinstance(desc, str):
+            raise TypeError("The description must be a string!")
+        if not isinstance(step_number, int):
+            raise TypeError("Step Number must be an int!")
         self.desc = desc
         self.step_number = step_number
