@@ -10,7 +10,9 @@ def initialize_database():
     cur.execute(
         """CREATE TABLE IF NOT EXIST Ingredient (
         ID INTEGER,
-        Name Text
+        Name Text,
+        Ammount FLOAT,
+        Unit Text,
         PRIMARY KEY(ID, ASC)
         ) 
         """
