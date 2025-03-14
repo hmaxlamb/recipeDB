@@ -18,6 +18,7 @@ class Recipe:
     def add_ingredient(self, ingredient):
         self.ingredients.append(self, ingredient)
 
+    #Adds instruction to the end of the list
     def append_instruction(self, instruction):
         instruction.step_number = len(self.instructions) + 1
         self.instructions.append(instruction)
@@ -60,3 +61,35 @@ class Instruction:
             raise TypeError("The description must be a string!")
         self.desc = desc
         self.step_number = None
+
+def prompt_recipe():
+    recipe_name_not_made = True
+    catagory_name_not_made = True
+    while (recipe_name_not_made):
+        r_name = input("Please name recipe")
+        confirm = input(f"Please confirm name: {r_name} (Yes/No)")
+        confirm.upper()
+        if (confirm == "YES"):
+            recipe_name_not_made = False
+        elif (confirm == "NO"):
+           print("Bruh")
+           continue
+        else:
+           raise ValueError("Must be yes or no")
+        
+        while(catagory_name_not_made:)
+            c_name = input("Please Input Catagory")
+            confirm = input(f"Please confirm catagory: {c_name} (Yes/No)")
+            confirm.upper()
+            if (confirm == "Yes"):
+                print(f"Catagory Name: {c_name}")
+                catagory_name_not_made = False
+            elif (confirm == "NO"):
+                print("Bruh")
+                continue
+            else:
+                raise ValueError("Must be yes or no")
+        
+        r = Recipe(r_name, c_name)
+
+        return r
