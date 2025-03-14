@@ -41,16 +41,32 @@ class TestRescipeCreation(unittest.TestCase):
         self.assertEqual(len(r.instructions), 1)
         self.assertEqual(r.instructions[0].step_number, 1)
 
-    def test_instuction_insertion(self):
+    def test_instruction_insertion(self):
+        r =Recipe("Pizza", "Intalian")
+        ins1 = Instruction("Mix flour and water")
+        ins2 = Instruction("Add yeast while mixing")
+        ins3 = Instruction("Mix until fully incorperated")
+        insX = Instruction("Stop and take a break")
+        insY = Instruction("Touch Grass")
+        r.append_instruction(ins1)
+        r.append_instruction(ins3)
+        r.insert_instruction(ins2, 2)
+        self.assertEqual(r.instructions[1].step_number, 2)
+
+        r.insert_instruction(insX, 1)
+        self.assertEqual(r.instructions[3].step_number, 4)
+        r.insert_instruction(insY, 5)
+
+    def bad_instruction_insertion(self):
         r =Recipe("Pizza", "Intalian")
         ins1 = Instruction("Mix flour and water")
         ins2 = Instruction("Add yeast while mixing")
         ins3 = Instruction("Mix until fully incorperated")
         r.append_instruction(ins1)
         r.append_instruction(ins3)
-        r.insert_instruction(ins2, 2)
 
-        self.assertEqual(r.instructions[1].step_number, 2)
+        with self.assertRaises(IndexError):
+            r.insert_instruction(ins2, 4)
 
 if __name__ == '__main__':
     unittest.main()

@@ -25,13 +25,13 @@ class Recipe:
     #This fuction will insert the instrunction and -
     #move the current instuction at the index  to the left
     def insert_instruction(self, instruction, step_num):
-        if step_num > len(self.instructions):
+        if step_num > len(self.instructions) + 1:
             raise IndexError("Step number can't be greater than total size")
         index = step_num - 1
-        self.instructions[index].step_number += 1
         instruction.step_number = step_num
-
         self.instructions.insert(index, instruction)
+        for i in range(index + 1, len(self.instructions)):
+            self.instructions[i].step_number += 1
 
         
 
