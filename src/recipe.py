@@ -94,3 +94,40 @@ def prompt_recipe():
     r = Recipe(r_name, c_name)
 
     return r
+
+#function that quickly gathers a list of instructions
+#to import to a recipe, the recipe must be empty
+def create_list_of_instuctions(recipe):
+    if (len(recipe.instructions) == 0):
+        raise ValueError("recipe must be empty")
+    is_done = False
+    instruction_lists = []
+    ins = None
+    count = 0
+    while(not is_done):
+        ins = None
+        is_instruction_made = False
+        count += 1
+        while(not is_instruction_made):
+            ins = input(f"Please input instruction number {count}")
+            confirm = input("Is the following instruction correct:/n{ins}")
+            confirm.upper()
+            if (confirm == "YES"):
+                instruction_lists.append(ins)
+                is_instruction_made = True
+            elif (confirm == "NO"):
+                continue
+            else:
+                raise ValueError("Must be yes or no")
+        outer_confirm = input("Are you done adding?")
+        outer_confirm.upper()
+        if (outer_confirm == "YES"):
+            for i in instruction_lists:
+                i = Instruction(i)
+                recipe.append_instruction(i)
+            is_done = True
+            print("Instructions added successfully")
+        elif (outer_confirm == "NO"):
+            continue
+        else:
+            raise ValueError("must be yes or no")
