@@ -119,15 +119,27 @@ def create_list_of_instuctions(recipe):
                 continue
             else:
                 raise ValueError("Must be yes or no")
-        outer_confirm = input("Are you done adding?")
-        outer_confirm.upper()
-        if (outer_confirm == "YES"):
-            for i in instruction_lists:
-                i = Instruction(i)
-                recipe.append_instruction(i)
-            is_done = True
-            print("Instructions added successfully")
-        elif (outer_confirm == "NO"):
-            continue
-        else:
-            raise ValueError("must be yes or no")
+        has_confirmed_answer = False
+        while(not has_confirmed_answer):
+            outer_confirm = input("Are you done adding? (Yes/No/Print)")
+            outer_confirm.upper()
+            if (outer_confirm == "YES"):
+                for i in instruction_lists:
+                    i = Instruction(i)
+                    recipe.append_instruction(i)
+                is_done = True
+                has_confirmed_answer = True 
+                print("Instructions added successfully")
+            if (outer_confirm == "PRINT"):
+                fmt_list = temp_print_instruction_list(instruction_lists)
+                print(fmt_list)
+            elif (outer_confirm == "NO"):
+                has_confirmed_answer = True
+                continue
+            else:
+                raise ValueError("must be yes or no or print")
+
+#This function will format a list of instructions to show the user before
+#they add to the recipe so they can be sure that they are done
+def format_instruction_list_for_print(list):
+    pass
