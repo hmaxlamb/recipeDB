@@ -62,6 +62,7 @@ class Instruction:
         self.desc = desc
         self.step_number = None
 
+#This function prompts the recipe creation and returns a recipe
 def prompt_recipe():
     recipe_name_not_made = True
     catagory_name_not_made = True
@@ -77,19 +78,19 @@ def prompt_recipe():
         else:
            raise ValueError("Must be yes or no")
         
-        while(catagory_name_not_made):
-            c_name = input("Please Input Catagory")
-            confirm = input(f"Please confirm catagory: {c_name} (Yes/No)")
-            confirm.upper()
-            if (confirm == "Yes"):
-                print(f"Catagory Name: {c_name}")
-                catagory_name_not_made = False
-            elif (confirm == "NO"):
-                print("Bruh")
-                continue
-            else:
-                raise ValueError("Must be yes or no")
+    while(catagory_name_not_made):
+        c_name = input("Please Input Catagory")
+        confirm = input(f"Please confirm catagory: {c_name} (Yes/No)")
+        confirm.upper()
+        if (confirm == "Yes"):
+            print(f"Catagory Name: {c_name}")
+            catagory_name_not_made = False
+        elif (confirm == "NO"):
+            print("Bruh")
+            continue
+        else:
+            raise ValueError("Must be yes or no")
         
-        r = Recipe(r_name, c_name)
+    r = Recipe(r_name, c_name)
 
-        return r
+    return r
