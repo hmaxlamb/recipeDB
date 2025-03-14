@@ -18,5 +18,13 @@ class TestRescipeCreation(unittest.TestCase):
         self.assertEqual(ingredient.ammount, 4)
         self.assertEqual(ingredient.unit, "GRAMS")
 
+    def test_bad_ingredient(self):
+        with self.assertRaises(TypeError):
+            ing = Ingredient(4, 4, "grams")
+        with self.assertRaises(TypeError):
+            ing = Ingredient("salt", "four", "tsp")
+        with self.assertRaises(TypeError):
+            ing = Ingredient("salt", 4, 5)
+
 if __name__ == '__main__':
     unittest.main()

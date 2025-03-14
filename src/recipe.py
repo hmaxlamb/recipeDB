@@ -46,8 +46,8 @@ class Ingredient:
         if unit:
             if not isinstance(unit, str):
                 raise TypeError("unit must be string!")
-            self.unit = unit
-        self.name = name
+            self.unit = unit.upper()
+        self.name = name.upper()
         
         
 
