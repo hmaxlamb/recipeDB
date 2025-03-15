@@ -3,7 +3,9 @@ import unittest
 from recipe import(
     Recipe, 
     Ingredient, 
-    Instruction,)
+    Instruction,
+    format_instruction_list_for_print
+    )
 
 class TestRescipeCreation(unittest.TestCase):
 
@@ -67,6 +69,11 @@ class TestRescipeCreation(unittest.TestCase):
 
         with self.assertRaises(IndexError):
             r.insert_instruction(ins2, 4)
+
+    def test_format_instruction_list_for_print(self):
+        list = ["Mix Flour", "Bake Cookies"]
+        fmt_string = format_instruction_list_for_print(list)
+        self.assertEqual(fmt_string,"""1. Mix Flour\n2. Bake Cookies""")
 
 if __name__ == '__main__':
     unittest.main()

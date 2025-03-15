@@ -131,15 +131,19 @@ def create_list_of_instuctions(recipe):
                 has_confirmed_answer = True 
                 print("Instructions added successfully")
             if (outer_confirm == "PRINT"):
-                fmt_list = temp_print_instruction_list(instruction_lists)
-                print(fmt_list)
+                fmt_string = format_instruction_list_for_print(instruction_lists)
+                print(fmt_string)
             elif (outer_confirm == "NO"):
                 has_confirmed_answer = True
                 continue
             else:
                 raise ValueError("must be yes or no or print")
 
-#This function will format a list of instructions to show the user before
+#This helper function will format a list of instructions to show the user before
 #they add to the recipe so they can be sure that they are done
 def format_instruction_list_for_print(list):
-    pass
+    fmt_list = []
+    for i in range(0, len(list)):
+        fmt_list.append(f"{i + 1}. " + list[i])
+    fmt_string = "\n".join(fmt_list)
+    return fmt_string

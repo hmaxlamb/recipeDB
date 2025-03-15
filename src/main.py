@@ -5,7 +5,4 @@ def main():
     initialize_database()
     print('\nWelcom to recipeDB! Press tab to view commands')
     while True:
-        command = input()
-        match command:
-            "quit":
-                return
+        command = input("Please Enter Command")
