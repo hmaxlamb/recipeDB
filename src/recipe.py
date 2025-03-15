@@ -128,16 +128,17 @@ def create_list_of_instuctions(recipe):
                     i = Instruction(i)
                     recipe.append_instruction(i)
                 is_done = True
-                has_confirmed_answer = True 
+                has_confirmed_answer = True
                 print("Instructions added successfully")
             if (outer_confirm == "PRINT"):
                 fmt_string = format_instruction_list_for_print(instruction_lists)
                 print(fmt_string)
+                continue
             elif (outer_confirm == "NO"):
                 has_confirmed_answer = True
                 continue
             else:
-                raise ValueError("must be yes or no or print")
+                print("please type correct choice")
 
 #This helper function will format a list of instructions to show the user before
 #they add to the recipe so they can be sure that they are done
@@ -147,3 +148,46 @@ def format_instruction_list_for_print(list):
         fmt_list.append(f"{i + 1}. " + list[i])
     fmt_string = "\n".join(fmt_list)
     return fmt_string
+
+def get_new_ingredient_name():
+    confirmed_name = False
+    correct_confirm = False
+    while(not confirmed_name):
+        name = input("Please name ingredient")
+        while(not correct_confirm):
+            confirm = input("Is {name} the correct name? (Yes/No)")
+            confirm.upper()
+            match confirm:
+                case "YES":
+                    correct_confirm = True
+                    confirmed_name = True
+                case "NO":
+                    correct_confirm = True
+                    continue
+                case _:
+                    "Error please type yes or no"
+    return name
+
+def get_new_ingredient_name():
+    confirmed_ammount = False
+    correct_confirm = False
+    while(not confirmed_ammount):
+        ammount = input("Please input the ammount")
+        try:
+            ammount = float(ammount)
+        except ValueError:
+            print("Please input number!")
+            continue
+        while(not correct_confirm):
+            confirm = input("Is {ammount} the correct ammount? (Yes/No)")
+            confirm.upper()
+            match confirm:
+                case "YES":
+                    correct_confirm = True
+                    confirmed_ammount = True
+                case "NO":
+                    correct_confirm = True
+                    continue
+                case _:
+                    "Error please type yes or no"
+    return ammount
