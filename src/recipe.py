@@ -64,37 +64,40 @@ class Instruction:
 
 #This function prompts the recipe creation and returns a recipe
 def prompt_recipe():
-    recipe_name_not_made = True
-    catagory_name__made = False
+    recipe_name_made = False
     has_confirmed_correctly = False
-    while (recipe_name_not_made):
+    while (not recipe_name_made):
         has_confirmed_correctly = False
         r_name = input("Please name recipe\n")
         while(not has_confirmed_correctly):
             confirm = input(f"Please confirm name: {r_name} (Yes/No)\n")
-            confirm.upper()
+            confirm = confirm.upper()
             if (confirm == "YES"):
-                recipe_name_not_made = False
+                recipe_name_made = True
                 has_confirmed_correctly = True
             elif (confirm == "NO"):
-                print("Please Re-enter Name")
                 has_confirmed_correctly = True
                 continue
             else:
                 print("Must be yes or no")
+    
+    catagory_name_made = False
         
     while(not catagory_name_made):
+        has_confirmed_correctly = False
         c_name = input("Please Input Catagory\n")
-        confirm = input(f"Please confirm catagory: {c_name} (Yes/No)\n")
-        confirm.upper()
-        if (confirm == "Yes"):
-            print(f"Catagory Name: {c_name}")
-            catagory_name_made = True
-        elif (confirm == "NO"):
-            print("Bruh")
-            continue
-        else:
-            print("Must be yes or no\n")
+        while (not has_confirmed_correctly):
+            confirm = input(f"Please confirm catagory: {c_name} (Yes/No)\n")
+            confirm = confirm.upper()
+            if (confirm == "YES"):
+                print(f"Catagory Name: {c_name}")
+                has_confirmed_correctly = True
+                catagory_name_made = True
+            elif (confirm == "NO"):
+                has_confirmed_correctly = True
+                continue
+            else:
+                print("Must be yes or no")
         
     r = Recipe(r_name, c_name)
 
@@ -103,7 +106,7 @@ def prompt_recipe():
 #function that quickly gathers a list of instructions
 #to import to a recipe, the recipe must be empty
 def create_list_of_instuctions(recipe):
-    if (len(recipe.instructions) == 0):
+    if (len(recipe.instructions) != 0):
         raise ValueError("recipe must be empty")
     is_done = False
     instruction_lists = []

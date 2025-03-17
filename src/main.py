@@ -6,7 +6,7 @@ def main():
     print('\nWelcom to recipeDB! Press tab to view commands')
     while True:
         command = input("Please Enter Command\n")
-        command.upper()
+        command = command.upper()
         match command:
             case "QUIT":
                 return
