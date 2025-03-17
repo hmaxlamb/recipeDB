@@ -65,31 +65,36 @@ class Instruction:
 #This function prompts the recipe creation and returns a recipe
 def prompt_recipe():
     recipe_name_not_made = True
-    catagory_name_not_made = True
+    catagory_name__made = False
+    has_confirmed_correctly = False
     while (recipe_name_not_made):
-        r_name = input("Please name recipe")
-        confirm = input(f"Please confirm name: {r_name} (Yes/No)")
-        confirm.upper()
-        if (confirm == "YES"):
-            recipe_name_not_made = False
-        elif (confirm == "NO"):
-           print("Bruh")
-           continue
-        else:
-           raise ValueError("Must be yes or no")
+        has_confirmed_correctly = False
+        r_name = input("Please name recipe\n")
+        while(not has_confirmed_correctly):
+            confirm = input(f"Please confirm name: {r_name} (Yes/No)\n")
+            confirm.upper()
+            if (confirm == "YES"):
+                recipe_name_not_made = False
+                has_confirmed_correctly = True
+            elif (confirm == "NO"):
+                print("Please Re-enter Name")
+                has_confirmed_correctly = True
+                continue
+            else:
+                print("Must be yes or no")
         
-    while(catagory_name_not_made):
-        c_name = input("Please Input Catagory")
-        confirm = input(f"Please confirm catagory: {c_name} (Yes/No)")
+    while(not catagory_name_made):
+        c_name = input("Please Input Catagory\n")
+        confirm = input(f"Please confirm catagory: {c_name} (Yes/No)\n")
         confirm.upper()
         if (confirm == "Yes"):
             print(f"Catagory Name: {c_name}")
-            catagory_name_not_made = False
+            catagory_name_made = True
         elif (confirm == "NO"):
             print("Bruh")
             continue
         else:
-            raise ValueError("Must be yes or no")
+            print("Must be yes or no\n")
         
     r = Recipe(r_name, c_name)
 
@@ -138,7 +143,7 @@ def create_list_of_instuctions(recipe):
                 has_confirmed_answer = True
                 continue
             else:
-                print("please type correct choice")
+                print("Please type correct choice")
 
 #This helper function will format a list of instructions to show the user before
 #they add to the recipe so they can be sure that they are done
@@ -168,7 +173,7 @@ def get_new_ingredient_name():
                     "Error please type yes or no"
     return name
 
-def get_new_ingredient_name():
+def get_new_ammount():
     confirmed_ammount = False
     correct_confirm = False
     while(not confirmed_ammount):
