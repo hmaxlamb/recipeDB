@@ -213,11 +213,15 @@ def get_new_unit():
     correct_confirm = False
     while (not confirmed_unit):
         correct_confirm = False
-        unit = input("Please input unit name\n")
+        unit = input("Please input unit name (If no unit is required leave blank)\n")
         unit = unit.upper()
-        while (not correct_confirm):
-            confirm = input(f"Is {unit} the correct unit? (Yes/No)\n")
-            confirm = confirm.upper()
+        while (not correct_confirm):  
+            if (unit == ""):
+                confirm = input(f"Is no unit required? (Yes/No)\n")
+                confirm = confirm.upper()
+            else:
+                confirm = input(f"Is {unit} the correct unit? (Yes/No)\n")
+                confirm = confirm.upper()
             match confirm:
                 case "YES":
                     correct_confirm = True
@@ -227,4 +231,16 @@ def get_new_unit():
                     continue
                 case _:
                     print("Please type yes or no")
+    if (unit == ""):
+        return None
     return unit
+
+def get_instruction():
+    name = get_new_ingredient_name()
+    unit = get_new_unit()
+    ammount = get_new_ammount()
+    if (unit == None):
+        ing = Ingredient(name, ammount)
+    else:
+        ing = Ingredient(name, ammount, unit)
+    return ing
