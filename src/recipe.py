@@ -112,25 +112,30 @@ def create_list_of_instuctions(recipe):
     instruction_lists = []
     ins = None
     count = 0
+    has_confirmed_answer = False
     while(not is_done):
         ins = None
         is_instruction_made = False
         count += 1
         while(not is_instruction_made):
-            ins = input(f"Please input instruction number {count}")
-            confirm = input("Is the following instruction correct:/n{ins}")
-            confirm.upper()
-            if (confirm == "YES"):
-                instruction_lists.append(ins)
-                is_instruction_made = True
-            elif (confirm == "NO"):
-                continue
-            else:
-                raise ValueError("Must be yes or no")
+            ins = input(f"Please input instruction number {count}:\n")
+            has_confirmed_answer = False
+            while (not has_confirmed_answer):
+                confirm = input(f"Is the following instruction correct:\n{ins}\n")
+                confirm = confirm.upper()
+                if (confirm == "YES"):
+                    instruction_lists.append(ins)
+                    is_instruction_made = True
+                    has_confirmed_answer = True
+                elif (confirm == "NO"):
+                    has_confirmed_answer = True
+                    continue
+                else:
+                    print("Must be yes or no")
         has_confirmed_answer = False
         while(not has_confirmed_answer):
-            outer_confirm = input("Are you done adding? (Yes/No/Print)")
-            outer_confirm.upper()
+            outer_confirm = input("Are you done adding? (Yes/No/Print)\n")
+            outer_confirm = outer_confirm.upper()
             if (outer_confirm == "YES"):
                 for i in instruction_lists:
                     i = Instruction(i)
@@ -138,6 +143,7 @@ def create_list_of_instuctions(recipe):
                 is_done = True
                 has_confirmed_answer = True
                 print("Instructions added successfully")
+                continue
             if (outer_confirm == "PRINT"):
                 fmt_string = format_instruction_list_for_print(instruction_lists)
                 print(fmt_string)
