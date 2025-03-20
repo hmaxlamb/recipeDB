@@ -24,7 +24,7 @@ def initialize_database():
         """CREATE TABLE IF NOT EXIST Recipe (
         ID INTEGER, 
         Name TEXT UNIQUE NOT NULL,
-        Catagory TEXT,
+        Category TEXT,
         PRIMARY KEY(ID, ASC)
         );
         """
@@ -75,3 +75,17 @@ def add_ingredients(ing_list):
     conn.close()
 
     return id_list
+
+def add_recipe(recp):
+    data = {"Name": recp.name, "Category": recp.category}
+
+    conn = sqlite3.connect("recipe_database.db")
+    cur = conn.cursor()
+
+    cur.execute("INSERT INTO Recipe (Name, Category) VALUES (:Name, :Category)", data)
+    recipe_id = cur.lastrowid
+
+    conn.commit()
+    conn.close()
+
+    return recipe_id
