@@ -68,7 +68,7 @@ def add_ingredients(ing_list):
     conn = sqlite3.connect("recipe_database.db")
     cur = conn.cursor()
 
-    cur.executemany("INSERT INTO Ingredient (Name, Amount, Unit) VALUES(:Name, :Ammount, :Unit) RETURNING ID", data_tp)
+    cur.executemany("INSERT INTO Ingredient (Name, Amount, Unit) VALUES (:Name, :Ammount, :Unit) RETURNING ID", data_tp)
     id_list = [row[0] for row in cur.fetchall()] #Gets returned IDs
 
     conn.commit()
@@ -76,6 +76,7 @@ def add_ingredients(ing_list):
 
     return id_list
 
+#adds a recipe to table
 def add_recipe(recp):
     data = {"Name": recp.name, "Category": recp.category}
 
@@ -89,3 +90,17 @@ def add_recipe(recp):
     conn.close()
 
     return recipe_id
+
+#adds the link between ingredients and a recipe
+def add_ingredient_recipe_link(resp_id, ingred_id_list):
+    data = []
+    for igred_id in ingred_id_list:
+        data.append({"RecipeID": resp_id, "IngredientID": igred_id})
+
+    conn = sqlite3.connect("recipe_database.db")
+    cur = conn.cursor()
+
+    cur.executemany("INSERT INTO Recipe_Ingredient_Link (RecipeID, IngredientID) VALUES (:RecipeID, :IngredientID)", data)
+
+    conn.commit()
+    conn.close()
