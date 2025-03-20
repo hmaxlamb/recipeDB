@@ -35,7 +35,7 @@ def initialize_database():
         """CREATE TABLE IF NOT EXIST Instruction (
         ID INTEGER,
         RecipeID INTEGER,
-        Name TEXT NOT NULL,
+        Description TEXT NOT NULL,
         StepNumber INTEGER
         PRIMARY KEY(ID, ASC)
         FOREIGN KEY(RecipeID) REFERENCES Recipe(ID)
@@ -101,6 +101,19 @@ def add_ingredient_recipe_link(resp_id, ingred_id_list):
     cur = conn.cursor()
 
     cur.executemany("INSERT INTO Recipe_Ingredient_Link (RecipeID, IngredientID) VALUES (:RecipeID, :IngredientID)", data)
+
+    conn.commit()
+    conn.close()
+
+def add_instructions_list(recp_ID, instruct_list):
+    data = []
+    for instruct in instruct_list:
+        data.append({"RecipeID": recp_ID, "Description": instruct.desc})
+
+    conn = sqlite3.connect("recipe_database.db")
+    cur = conn.cursor()
+
+    cur.executemany("INSERT INTO Instruction (RecipeID, Description) VALUES (:RecipeID, :Description)", data)
 
     conn.commit()
     conn.close()
