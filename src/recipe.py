@@ -34,7 +34,19 @@ class Recipe:
         for i in range(index + 1, len(self.instructions)):
             self.instructions[i].step_number += 1
 
+    #This Funtion Prints the Recipe
+    def print_recipe(self):
+        print(f"Name: {self.name}\nCatagory: {self.category}\n")
+
+        print("Ingredients:")
+        for i in range(len(self.ingredients)):
+            print(f"    {self.ingredients[i].ingredient_string()}")
+
+        print("")
         
+        print("Instruntions:")
+        for i in range(len(self.instructions)):
+            print(f"    {self.instructions[i].instruction_string()}")
 
 class Ingredient:
     def __init__(self, name, ammount, unit=None):
@@ -51,7 +63,12 @@ class Ingredient:
                 raise TypeError("unit must be string!")
             self.unit = unit.upper()
         self.name = name.upper()
-        
+
+    def ingredient_string(self):
+        if (self.unit == None):
+            return f"{self.ammount} {self.name}"
+        else:
+            return f"{self.ammount} {self.unit} {self.name}"
         
 
 
@@ -61,6 +78,9 @@ class Instruction:
             raise TypeError("The description must be a string!")
         self.desc = desc
         self.step_number = None
+    
+    def instruction_string(self):
+        return f"{self.step_number}. {self.desc}"
 
 #This function prompts the recipe creation and returns a recipe
 def prompt_recipe():

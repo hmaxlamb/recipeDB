@@ -13,6 +13,7 @@ def main():
             case "NEW RECIPE":
                 nr = prompt_recipe()
                 create_list_of_instuctions(nr)
+                nr.print_recipe()
 
 main()
                 
