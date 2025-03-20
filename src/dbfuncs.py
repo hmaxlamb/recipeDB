@@ -1,4 +1,5 @@
 import sqlite3
+from recipe import Recipe, Ingredient, Instruction
 
 def initialize_database():
     #Creates database / Connnection
@@ -55,3 +56,22 @@ def initialize_database():
 
     #Closes DB connection
     conn.close()
+
+#Fuction adds a list of ingredients and returns the ids in a list
+def add_ingredients(ing_list):
+    data_ar = []
+    for ing in ing_list:
+        data_ar.append({"Name": ing.name, "Ammount": ing.ammount, "Unit": ing.unit})
+
+    data_tp = tuple(data_ar)
+
+    conn = sqlite3.connect("recipe_database.db")
+    cur = conn.cursor()
+
+    cur.executemany("INSERT INTO Ingredient (Name, Amount, Unit) VALUES(:Name, :Ammount, :Unit) RETURNING ID", data_tp)
+    id_list = [row[0] for row in cur.fetchall()] #Gets returned IDs
+
+    conn.commit()
+    conn.close()
+
+    return id_list
