@@ -1,7 +1,7 @@
 import unittest
 import sqlite3
-from dbfuncs import add_recipe
-from recipe import Recipe
+from dbfuncs import add_recipe, add_ingredients
+from recipe import Recipe, Ingredient
 
 class TestDBFunctions(unittest.TestCase):
     def setUp(self):
@@ -15,7 +15,7 @@ class TestDBFunctions(unittest.TestCase):
             """CREATE TABLE IF NOT EXISTS Ingredient (
             ID INTEGER,
             Name Text,
-            Ammount FLOAT,
+            Ammount REAL,
             Unit Text,
             PRIMARY KEY(ID)
             ) 
@@ -58,18 +58,30 @@ class TestDBFunctions(unittest.TestCase):
         ) 
 
         self.conn.commit()
+
+        self.recp = Recipe("PIZZA", "ITALAIN")
+        self.ingr_list = [Ingredient("Flour", 2, "Cups"), Ingredient("Water", 2, "Cups")]
     
     def tearDown(self):
         self.conn.close()
     
     def test_add_recipe(self):
-        recp = Recipe("PIZZA", "ITALAIN")
-        id = add_recipe(self.conn, recp)
+        id = add_recipe(self.conn, self.recp)
 
         self.cur.execute("SELECT * FROM Recipe WHERE ID = ?", (id,))
         result = self.cur.fetchone()
 
         self.assertEqual(result[1], "PIZZA")
+
+    def test_add_ingredients(self):
+        id_list = add_ingredients(self.conn, self.ingr_list)
+        id_list = tuple(id_list)
+
+        self.cur.execute(f"SELECT * FROM Ingredient WHERE ID IN ({', '.join(['?'] * len(id_list))})", id_list)
+        result = self.cur.fetchall()
+        print(result)
+
+        self.assertEqual(result[0][1], "FLOUR")
     
         
 

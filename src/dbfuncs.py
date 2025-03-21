@@ -12,9 +12,9 @@ def initialize_database():
         """CREATE TABLE IF NOT EXISTS Ingredient (
         ID INTEGER,
         Name Text,
-        Ammount FLOAT,
+        Ammount REAL,
         Unit Text,
-        PRIMARY KEY(ID ASC)
+        PRIMARY KEY(ID)
         ) 
         """
     )
@@ -63,15 +63,14 @@ def add_ingredients(conn, ing_list):
     for ing in ing_list:
         data_ar.append({"Name": ing.name, "Ammount": ing.ammount, "Unit": ing.unit})
 
-    data_tp = tuple(data_ar)
+    names = [data["Name"] for data in data_ar]
+    names = tuple(names)
 
     cur = conn.cursor()
 
-    cur.executemany("INSERT INTO Ingredient (Name, Amount, Unit) VALUES (:Name, :Ammount, :Unit) RETURNING ID", data_tp)
-    id_list = [row[0] for row in cur.fetchall()] #Gets returned IDs
-
-    conn.commit()
-    conn.close()
+    cur.executemany("INSERT INTO Ingredient (Name, Ammount, Unit) VALUES (:Name, :Ammount, :Unit)", data_ar)
+    cur.execute(f"SELECT ID FROM Ingredient WHERE Name IN ({",".join(["?"] * len(names))})", names)
+    id_list = [row[0] for row in cur.fetchall()]
 
     return id_list
 
