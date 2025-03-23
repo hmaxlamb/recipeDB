@@ -69,7 +69,7 @@ def add_ingredients(conn, ing_list):
     cur = conn.cursor()
 
     cur.executemany("INSERT INTO Ingredient (Name, Ammount, Unit) VALUES (:Name, :Ammount, :Unit)", data_ar)
-    cur.execute(f"SELECT ID FROM Ingredient WHERE Name IN ({",".join(["?"] * len(names))})", names)
+    cur.execute(f"SELECT ID FROM Ingredient WHERE Name IN ({', '.join(['?'] * len(names))})", names)
     id_list = [row[0] for row in cur.fetchall()]
 
     return id_list

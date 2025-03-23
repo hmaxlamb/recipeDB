@@ -79,11 +79,15 @@ class TestDBFunctions(unittest.TestCase):
 
         self.cur.execute(f"SELECT * FROM Ingredient WHERE ID IN ({', '.join(['?'] * len(id_list))})", id_list)
         result = self.cur.fetchall()
-        print(result)
 
         self.assertEqual(result[0][1], "FLOUR")
-    
-        
+        self.assertEqual(result[1][1], "WATER")
+
+        self.assertEqual(result[0][2], 2)
+        self.assertEqual(result[1][2], 2)  
+
+        self.assertEqual(result[0][3], "CUPS")
+        self.assertEqual(result[1][3], "CUPS")
 
 if __name__ == '__main__':
     unittest.main()
