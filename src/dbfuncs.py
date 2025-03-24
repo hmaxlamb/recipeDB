@@ -93,9 +93,7 @@ def add_ingredient_recipe_link(conn, resp_id, ingred_id_list):
     cur = conn.cursor()
 
     cur.executemany("INSERT INTO Recipe_Ingredient_Link (RecipeID, IngredientID) VALUES (:RecipeID, :IngredientID)", data)
-
-    conn.commit()
-    conn.close()
+    
 
 def add_instructions_list(conn, recp_ID, instruct_list):
     data = []

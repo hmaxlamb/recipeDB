@@ -1,6 +1,9 @@
 import unittest
 import sqlite3
-from dbfuncs import add_recipe, add_ingredients
+from dbfuncs import (add_recipe, 
+                     add_ingredients,
+                     add_ingredient_recipe_link,
+                     add_instructions_list)
 from recipe import Recipe, Ingredient
 
 class TestDBFunctions(unittest.TestCase):
@@ -59,7 +62,7 @@ class TestDBFunctions(unittest.TestCase):
 
         self.conn.commit()
 
-        self.recp = Recipe("PIZZA", "ITALAIN")
+        self.recp = Recipe("PIZZA", "ITALIAN")
         self.ingr_list = [Ingredient("Flour", 2, "Cups"), Ingredient("Water", 2, "Cups")]
     
     def tearDown(self):
@@ -72,6 +75,7 @@ class TestDBFunctions(unittest.TestCase):
         result = self.cur.fetchone()
 
         self.assertEqual(result[1], "PIZZA")
+        self.assertEqual(result[2], "ITALIAN")
 
     def test_add_ingredients(self):
         id_list = add_ingredients(self.conn, self.ingr_list)
@@ -88,6 +92,22 @@ class TestDBFunctions(unittest.TestCase):
 
         self.assertEqual(result[0][3], "CUPS")
         self.assertEqual(result[1][3], "CUPS")
+
+    def test_ing_rec_link(self):
+        recp_id = add_recipe(self.conn, self.recp)
+        ing_ids = add_ingredients(self.conn, self.ingr_list)
+
+        add_ingredient_recipe_link(self.conn, recp_id, ing_ids)
+
+        self.cur.execute("SELECT * FROM Recipe_Ingredient_Link WHERE RecipeID = ?", (recp_id,))
+        result = self.cur.fetchall()
+
+        self.assertIsNotNone(result[0][0])
+
+        self.assertEqual(result[0][0], recp_id)
+        self.assertEqual(result[1][0], recp_id)
+
+        self.assertEqual(result[0][1], ing_ids[0])
 
 if __name__ == '__main__':
     unittest.main()
