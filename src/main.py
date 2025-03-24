@@ -1,5 +1,6 @@
 import sqlite3
-from recipe import *
+from recipe import (create_list_of_instuctions,
+                    prompt_recipe,)
 from dbfuncs import initialize_database
 def main():
     #initialize_database()
