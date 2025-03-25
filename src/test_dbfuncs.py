@@ -4,7 +4,7 @@ from dbfuncs import (add_recipe,
                      add_ingredients,
                      add_ingredient_recipe_link,
                      add_instructions_list)
-from recipe import Recipe, Ingredient
+from recipe import Recipe, Ingredient, Instruction
 
 class TestDBFunctions(unittest.TestCase):
     def setUp(self):
@@ -64,6 +64,10 @@ class TestDBFunctions(unittest.TestCase):
 
         self.recp = Recipe("PIZZA", "ITALIAN")
         self.ingr_list = [Ingredient("Flour", 2, "Cups"), Ingredient("Water", 2, "Cups")]
+        self.instruct_list = [Instruction("Mix flour and water"), Instruction("Add yeast"),
+                              Instruction("Mix all together"), Instruction("Knead until firm")]
+        for instuction in self.instruct_list:
+            self.recp.append_instruction(instuction)
     
     def tearDown(self):
         self.conn.close()
@@ -108,6 +112,20 @@ class TestDBFunctions(unittest.TestCase):
         self.assertEqual(result[1][0], recp_id)
 
         self.assertEqual(result[0][1], ing_ids[0])
+
+    def test_add_instructions_list(self):
+        id = add_recipe(self.conn, self.recp)
+        add_instructions_list(self.conn, id, self.recp.instructions)
+
+        self.cur.execute("SELECT * FROM Instruction WHERE RecipeID = ?", (id,))
+        result = self.cur.fetchall()
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result[0][1], id)
+        self.assertEqual(result[0][2], self.recp.instructions[0].desc)
+        self.assertEqual(result[1][2], self.recp.instructions[1].desc)
+        self.assertEqual(result[0][3], 1)
+        self.assertEqual(result[3][3], 4)
 
 if __name__ == '__main__':
     unittest.main()

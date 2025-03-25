@@ -97,11 +97,8 @@ def add_ingredient_recipe_link(conn, resp_id, ingred_id_list):
 def add_instructions_list(conn, recp_ID, instruct_list):
     data = []
     for instruct in instruct_list:
-        data.append({"RecipeID": recp_ID, "Description": instruct.desc})
+        data.append({"RecipeID": recp_ID, "Description": instruct.desc, "StepNumber": instruct.step_number})
 
     cur = conn.cursor()
 
-    cur.executemany("INSERT INTO Instruction (RecipeID, Description) VALUES (:RecipeID, :Description)", data)
-
-    conn.commit()
-    conn.close()
+    cur.executemany("INSERT INTO Instruction (RecipeID, Description, StepNumber) VALUES (:RecipeID, :Description, :StepNumber)", data)
