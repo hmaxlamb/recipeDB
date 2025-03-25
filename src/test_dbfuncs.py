@@ -3,7 +3,8 @@ import sqlite3
 from dbfuncs import (add_recipe, 
                      add_ingredients,
                      add_ingredient_recipe_link,
-                     add_instructions_list)
+                     add_instructions_list,
+                     get_recipe_list)
 from recipe import Recipe, Ingredient, Instruction
 
 class TestDBFunctions(unittest.TestCase):
@@ -63,6 +64,7 @@ class TestDBFunctions(unittest.TestCase):
         self.conn.commit()
 
         self.recp = Recipe("PIZZA", "ITALIAN")
+        self.recp2 = Recipe("Popcorn", "American")
         self.ingr_list = [Ingredient("Flour", 2, "Cups"), Ingredient("Water", 2, "Cups")]
         self.instruct_list = [Instruction("Mix flour and water"), Instruction("Add yeast"),
                               Instruction("Mix all together"), Instruction("Knead until firm")]
@@ -126,6 +128,16 @@ class TestDBFunctions(unittest.TestCase):
         self.assertEqual(result[1][2], self.recp.instructions[1].desc)
         self.assertEqual(result[0][3], 1)
         self.assertEqual(result[3][3], 4)
+
+    def test_get_recipe_list(self):
+        add_recipe(self.conn, self.recp)
+        add_recipe(self.conn, self.recp2)
+
+        recp_name_list = get_recipe_list(self.conn)
+
+        self.assertIsNotNone(recp_name_list)
+        self.assertEqual(recp_name_list[0], "PIZZA")
+        self.assertEqual(recp_name_list[1], "POPCORN")
 
 if __name__ == '__main__':
     unittest.main()

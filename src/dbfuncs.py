@@ -102,3 +102,12 @@ def add_instructions_list(conn, recp_ID, instruct_list):
     cur = conn.cursor()
 
     cur.executemany("INSERT INTO Instruction (RecipeID, Description, StepNumber) VALUES (:RecipeID, :Description, :StepNumber)", data)
+
+#Gets the names of recipes from the DB
+def get_recipe_list(conn):
+    cur = conn.cursor()
+    
+    cur.execute("SELECT Name FROM Recipe")
+    recp_name_list = [row[0] for row in cur.fetchall()]
+
+    return recp_name_list
