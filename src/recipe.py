@@ -16,7 +16,7 @@ class Recipe:
         self.instructions = []
 
     def add_ingredient(self, ingredient):
-        self.ingredients.append(self, ingredient)
+        self.ingredients.append(ingredient)
 
     #Adds instruction to the end of the list
     def append_instruction(self, instruction):

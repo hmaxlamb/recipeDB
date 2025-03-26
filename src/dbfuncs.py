@@ -1,5 +1,5 @@
 import sqlite3
-from recipe import Recipe, Ingredient
+from recipe import Recipe, Ingredient, Instruction
 
 def initialize_database():
     #Creates database / Connnection
@@ -130,7 +130,8 @@ def get_complete_recipe(conn, recp_name):
     r = Recipe(name, catagory)
 
     for desc in desc_list:
-        r.append_instruction(desc)
+        instruction = Instruction(desc)
+        r.append_instruction(instruction)
 
     cur.execute("""SELECT * FROM INGREDIENT I 
                 INNER JOIN Recipe_Ingredient_Link RIL ON I.ID = RIL.IngredientID
@@ -138,8 +139,8 @@ def get_complete_recipe(conn, recp_name):
     
     result = cur.fetchall()
 
-    for i in range(result):
-        i = Ingredient(result[i][1], result[i][2], result[i][3])
-        r.add_ingredient(i)
+    for i in range(len(result)):
+        ing = Ingredient(result[i][1], result[i][2], result[i][3])
+        r.add_ingredient(ing)
 
     return r

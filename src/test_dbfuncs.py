@@ -4,7 +4,8 @@ from dbfuncs import (add_recipe,
                      add_ingredients,
                      add_ingredient_recipe_link,
                      add_instructions_list,
-                     get_recipe_list)
+                     get_recipe_list,
+                     get_complete_recipe)
 from recipe import Recipe, Ingredient, Instruction
 
 class TestDBFunctions(unittest.TestCase):
@@ -138,6 +139,22 @@ class TestDBFunctions(unittest.TestCase):
         self.assertIsNotNone(recp_name_list)
         self.assertEqual(recp_name_list[0], "PIZZA")
         self.assertEqual(recp_name_list[1], "POPCORN")
+
+    def test_get_complete_recipe(self):
+        recp_id = add_recipe(self.conn, self.recp)
+        ing_id_list = add_ingredients(self.conn, self.ingr_list)
+        add_ingredient_recipe_link(self.conn, recp_id, ing_id_list)
+        add_instructions_list(self.conn, recp_id, self.recp.instructions)
+
+        r = get_complete_recipe(self.conn, "PIZZA")
+
+        self.assertEqual(r.name, "PIZZA")
+        self.assertEqual(r.category, "ITALIAN")
+        self.assertIsNotNone(r.ingredients)
+        self.assertIsNotNone(r.instructions)
+        self.assertEqual(len(r.ingredients), 2)
+        self.assertEqual(len(r.instructions), 4)
+
 
 if __name__ == '__main__':
     unittest.main()
