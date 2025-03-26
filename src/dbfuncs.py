@@ -1,4 +1,5 @@
 import sqlite3
+from recipe import Recipe, Ingredient
 
 def initialize_database():
     #Creates database / Connnection
@@ -111,3 +112,34 @@ def get_recipe_list(conn):
     recp_name_list = [row[0] for row in cur.fetchall()]
 
     return recp_name_list
+
+#Gets complete recipe based off name
+def get_complete_recipe(conn, recp_name):
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM Recipe WHERE Name = ?", (recp_name,))
+    result = cur.fetchone()
+
+    id = result[0]
+    name = result[1]
+    catagory = result[2]
+
+    cur.execute("SELECT Description FROM Instruction WHERE ID = ? ORDER BY StepNumber", (id,))
+    desc_list = [row[0] for row in cur.fetchall()]
+
+    r = Recipe(name, catagory)
+
+    for desc in desc_list:
+        r.append_instruction(desc)
+
+    cur.execute("""SELECT * FROM INGREDIENT I 
+                INNER JOIN Recipe_Ingredient_Link RIL ON I.ID = RIL.IngredientID
+                WHERE RIL.RecipeID = ?""", (id,))
+    
+    result = cur.fetchall()
+
+    for i in range(result):
+        i = Ingredient(result[i][1], result[i][2], result[i][3])
+        r.add_ingredient(i)
+
+    return r
