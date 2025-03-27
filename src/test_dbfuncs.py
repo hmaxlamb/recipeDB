@@ -69,6 +69,7 @@ class TestDBFunctions(unittest.TestCase):
         self.ingr_list = [Ingredient("Flour", 2, "Cups"), Ingredient("Water", 2, "Cups")]
         self.instruct_list = [Instruction("Mix flour and water"), Instruction("Add yeast"),
                               Instruction("Mix all together"), Instruction("Knead until firm")]
+        
         for instuction in self.instruct_list:
             self.recp.append_instruction(instuction)
     

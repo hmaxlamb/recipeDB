@@ -124,7 +124,7 @@ def get_complete_recipe(conn, recp_name):
     name = result[1]
     catagory = result[2]
 
-    cur.execute("SELECT Description FROM Instruction WHERE ID = ? ORDER BY StepNumber", (id,))
+    cur.execute("SELECT Description FROM Instruction WHERE RecipeID = ? ORDER BY StepNumber", (id,))
     desc_list = [row[0] for row in cur.fetchall()]
 
     r = Recipe(name, catagory)
