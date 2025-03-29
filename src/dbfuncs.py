@@ -114,7 +114,7 @@ def get_recipe_list(conn):
     return recp_name_list
 
 #Gets complete recipe based off name
-def get_complete_recipe(conn, recp_name):
+def get_complete_recipe(conn, recp_name) -> Recipe:
     cur = conn.cursor()
 
     cur.execute("SELECT * FROM Recipe WHERE Name = ?", (recp_name,))
@@ -144,3 +144,24 @@ def get_complete_recipe(conn, recp_name):
         r.add_ingredient(ing)
 
     return r
+
+def get_recipe_id(conn, recp_name) -> int:
+    cur = conn.cursor()
+
+    cur.execute("SELECT ID FROM Recipe WHERE Name = ?", (recp_name,))
+    result = cur.fetchone()
+
+    return result[0]
+
+def insert_instruction(conn, recp_name, instuction_desc, step_number):
+    id = get_recipe_id(conn, recp_name)
+
+    cur = conn.cursor()
+
+    cur.execute("""UPDATE Instruction
+                SET StepNumber = StepNumber + 1
+                WHERE RecipeID = ?
+                AND StepNumber >= ?""",
+                (id, step_number))
+    
+    cur.execute("INSERT INTO Instruction (RecipeID, Description, StepNumber) VALUES (?, ?, ?)", (id, instuction_desc, step_number))

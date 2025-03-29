@@ -155,7 +155,10 @@ class TestDBFunctions(unittest.TestCase):
         self.assertIsNotNone(r.instructions)
         self.assertEqual(len(r.ingredients), 2)
         self.assertEqual(len(r.instructions), 4)
-
+        self.assertEqual(r.instructions[0].desc, "Mix flour and water")
+        self.assertEqual(r.instructions[1].desc, "Add yeast")
+        self.assertEqual(r.instructions[2].desc, "Mix all together")
+        self.assertEqual(r.instructions[3].desc, "Knead until firm")
 
 if __name__ == '__main__':
     unittest.main()
